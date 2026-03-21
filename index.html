@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D360Sync | Engineering Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <span class="brand-icon"><i class="bi bi-hexagon-fill"></i></span>
+      <span class="brand-text">D360<span class="brand-accent">Sync</span></span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html"><i class="bi bi-grid me-1"></i>Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-highlight" href="ai-news.html"><i class="bi bi-newspaper me-1"></i>AI Latest News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about"><i class="bi bi-info-circle me-1"></i>About</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero-section">
+  <div class="container-fluid px-4">
+    <div class="row align-items-center min-vh-hero">
+      <div class="col-lg-7">
+        <div class="hero-badge mb-3"><i class="bi bi-lightning-charge-fill me-1"></i>Engineering Dashboard</div>
+        <h1 class="hero-title">Application &amp; Infrastructure<br/><span class="gradient-text">Command Center</span></h1>
+        <p class="hero-subtitle mt-3">SaaS production management hub for Kovai.co Engineering. Monitor, manage, and stay ahead with AI-powered insights.</p>
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+          <a href="ai-news.html" class="btn btn-primary btn-hero">
+            <i class="bi bi-newspaper me-2"></i>Read AI News
+          </a>
+          <a href="#stats" class="btn btn-outline-light btn-hero">
+            <i class="bi bi-bar-chart me-2"></i>View Stats
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center mt-5 mt-lg-0">
+        <div class="hero-graphic">
+          <div class="orbit-ring ring-1"></div>
+          <div class="orbit-ring ring-2"></div>
+          <div class="orbit-ring ring-3"></div>
+          <div class="orbit-center"><i class="bi bi-cpu-fill"></i></div>
+          <div class="orbit-dot dot-1"><i class="bi bi-cloud-fill"></i></div>
+          <div class="orbit-dot dot-2"><i class="bi bi-robot"></i></div>
+          <div class="orbit-dot dot-3"><i class="bi bi-shield-check"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section id="stats" class="section-stats py-5">
+  <div class="container-fluid px-4">
+    <div class="row g-4">
+      <div class="col-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon bg-primary-soft"><i class="bi bi-server"></i></div>
+          <div class="stat-value">99.9<small>%</small></div>
+          <div class="stat-label">Uptime SLA</div>
+          <div class="stat-trend up"><i class="bi bi-arrow-up-short"></i> Stable</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon bg-success-soft"><i class="bi bi-people-fill"></i></div>
+          <div class="stat-value">12k<small>+</small></div>
+          <div class="stat-label">Active Users</div>
+          <div class="stat-trend up"><i class="bi bi-arrow-up-short"></i> +8% this month</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon bg-warning-soft"><i class="bi bi-lightning-fill"></i></div>
+          <div class="stat-value">48<small>ms</small></div>
+          <div class="stat-label">Avg Response</div>
+          <div class="stat-trend up"><i class="bi bi-arrow-up-short"></i> Optimal</div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon bg-info-soft"><i class="bi bi-cloud-check-fill"></i></div>
+          <div class="stat-value">24<small>/7</small></div>
+          <div class="stat-label">Infrastructure</div>
+          <div class="stat-trend up"><i class="bi bi-arrow-up-short"></i> All systems go</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Links -->
+<section class="section-cards py-5">
+  <div class="container-fluid px-4">
+    <div class="section-header mb-4">
+      <h2 class="section-title">Quick Access</h2>
+      <p class="section-sub">Jump to key areas of your engineering platform</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <a href="ai-news.html" class="quick-card quick-card-ai">
+          <div class="qc-icon"><i class="bi bi-newspaper"></i></div>
+          <div class="qc-content">
+            <h5>AI Latest News</h5>
+            <p>Anthropic, Claude Code, and top AI engineering updates</p>
+          </div>
+          <i class="bi bi-arrow-right qc-arrow"></i>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="quick-card quick-card-infra">
+          <div class="qc-icon"><i class="bi bi-diagram-3-fill"></i></div>
+          <div class="qc-content">
+            <h5>Infrastructure</h5>
+            <p>Cloud resources, networking, and deployment pipelines</p>
+          </div>
+          <span class="badge bg-secondary ms-auto">Soon</span>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="quick-card quick-card-app">
+          <div class="qc-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+          <div class="qc-content">
+            <h5>Applications</h5>
+            <p>Manage SaaS applications, releases, and health checks</p>
+          </div>
+          <span class="badge bg-secondary ms-auto">Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section-about py-5">
+  <div class="container-fluid px-4">
+    <div class="about-card">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="about-tag">Associate Director of Engineering</div>
+          <h2 class="mt-2">Kovai.co · Application &amp; Infrastructure</h2>
+          <p class="mt-3 text-muted">Driving SaaS production excellence across application lifecycle and infrastructure operations. D360Sync is an internal engineering hub built for speed, visibility, and AI-augmented decision making.</p>
+        </div>
+        <div class="col-lg-4 mt-4 mt-lg-0 d-flex justify-content-lg-end">
+          <div class="about-badge"><i class="bi bi-building me-2"></i>Kovai.co</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer py-4">
+  <div class="container-fluid px-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span class="footer-brand">D360<span>Sync</span></span>
+      <span class="footer-copy">Built with open source tools &middot; Static Site &middot; Kovai.co Engineering</span>
+      <div class="d-flex gap-3">
+        <a href="index.html" class="footer-link">Dashboard</a>
+        <a href="ai-news.html" class="footer-link">AI News</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
