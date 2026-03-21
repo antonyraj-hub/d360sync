@@ -1,16 +1,16 @@
 /**
  * D360Sync – AI Latest News Feed
- * Fetches AI/Claude Code news from multiple RSS sources via rss2json.com (free, open API)
- * Falls back gracefully if individual feeds fail.
+ * Fetches AI/Claude Code news from multiple RSS sources.
+ * Uses allorigins.win as a CORS proxy + native DOMParser (no API key/rate-limits).
  */
 
-const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const CORS_PROXY = 'https://api.allorigins.win/get?url=';
 
 const SOURCES = [
   {
     key: 'anthropic',
     label: 'Anthropic Blog',
-    rss: 'https://www.anthropic.com/rss.xml',
+    rss: 'https://www.anthropic.com/news/rss',
     colorClass: 'dot-anthropic',
     nameClass: 'name-anthropic',
   },
@@ -59,23 +59,57 @@ function isClaudeRelated(text = '') {
   return CLAUDE_KEYWORDS.some(kw => lower.includes(kw));
 }
 
-// ── Fetch a single RSS feed ─────────────────────────────────
+// ── Parse RSS/Atom XML into article objects ─────────────────
+function parseXml(xmlText, source) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'application/xml');
+
+  // Detect parse errors
+  if (doc.querySelector('parsererror')) {
+    throw new Error('XML parse error');
+  }
+
+  // Support both RSS <item> and Atom <entry>
+  const items = Array.from(doc.querySelectorAll('item, entry')).slice(0, 15);
+
+  return items.map(item => {
+    const getText = (...tags) => {
+      for (const tag of tags) {
+        const el = item.querySelector(tag);
+        if (el) return el.textContent.trim();
+      }
+      return '';
+    };
+
+    const title   = getText('title');
+    const link    = item.querySelector('link')?.textContent?.trim()
+                 || item.querySelector('link')?.getAttribute('href')
+                 || getText('guid')
+                 || '#';
+    const desc    = getText('description', 'summary', 'content');
+    const pubDate = getText('pubDate', 'published', 'updated');
+
+    return {
+      source: source.key,
+      sourceLabel: source.label,
+      colorClass: source.colorClass,
+      nameClass: source.nameClass,
+      title,
+      summary: stripHtml(desc),
+      link,
+      pubDate: pubDate ? new Date(pubDate) : new Date(0),
+    };
+  });
+}
+
+// ── Fetch a single RSS feed via CORS proxy ──────────────────
 async function fetchFeed(source) {
-  const url = `${RSS2JSON}${encodeURIComponent(source.rss)}&count=15`;
-  const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+  const proxyUrl = `${CORS_PROXY}${encodeURIComponent(source.rss)}`;
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
-  if (data.status !== 'ok') throw new Error(data.message || 'Feed error');
-  return (data.items || []).map(item => ({
-    source: source.key,
-    sourceLabel: source.label,
-    colorClass: source.colorClass,
-    nameClass: source.nameClass,
-    title: item.title || '',
-    summary: stripHtml(item.description || item.content || ''),
-    link: item.link || item.guid || '#',
-    pubDate: item.pubDate ? new Date(item.pubDate) : new Date(0),
-  }));
+  const json = await res.json();
+  if (!json.contents) throw new Error('Empty response from proxy');
+  return parseXml(json.contents, source);
 }
 
 // ── Strip HTML tags from summary ───────────────────────────
@@ -89,8 +123,8 @@ function stripHtml(html) {
 function timeAgo(date) {
   if (!date || date.getTime() === 0) return '';
   const diff = (Date.now() - date.getTime()) / 1000;
-  if (diff < 60)   return 'just now';
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+  if (diff < 60)    return 'just now';
+  if (diff < 3600)  return `${Math.floor(diff/60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
   if (diff < 604800) return `${Math.floor(diff/86400)}d ago`;
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -135,7 +169,7 @@ function escapeHtml(str) {
 
 // ── Render filtered & sorted articles ─────────────────────
 function renderNews() {
-  const grid = document.getElementById('newsGrid');
+  const grid    = document.getElementById('newsGrid');
   const countEl = document.getElementById('articleCount');
 
   let items = activeFilter === 'all'
